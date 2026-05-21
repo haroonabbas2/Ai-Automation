@@ -1,14 +1,117 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.81/build/spline-viewer.js"></script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MHTML to HTML Converter - Batch Upload</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MHTML to HTML Converter</h1>
+            <p class="subtitle">Batch convert your MHTML/MHT files to clean HTML</p>
+        </header>
+
+        <main>
+            <!-- Upload Section -->
+            <div class="upload-section" id="uploadSection">
+                <div class="drop-zone" id="dropZone">
+                    <div class="drop-zone-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                    </div>
+                    <h3>Drag & Drop MHTML Files Here</h3>
+                    <p>or click to browse</p>
+                    <input type="file" id="fileInput" multiple accept=".mhtml,.mht" hidden>
+                    <button class="btn btn-primary" id="browseBtn">Browse Files</button>
+                </div>
+                <p class="hint">Supports .mhtml and .mht files | Batch upload multiple files at once</p>
+            </div>
+
+            <!-- File List Section -->
+            <div class="file-list-section" id="fileListSection" style="display:none;">
+                <div class="file-list-header">
+                    <h3><span id="fileCount">0</span> Files Selected</h3>
+                    <div class="file-list-actions">
+                        <button class="btn btn-secondary" id="addMoreBtn">+ Add More</button>
+                        <button class="btn btn-danger" id="clearAllBtn">Clear All</button>
+                    </div>
+                </div>
+                <div class="file-list" id="fileList"></div>
+                <button class="btn btn-primary btn-large" id="convertBtn">Convert All to HTML</button>
+            </div>
+
+            <!-- Progress Section -->
+            <div class="progress-section" id="progressSection" style="display:none;">
+                <h3>Converting Files...</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p class="progress-text" id="progressText">0 / 0 files converted</p>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="resultsSection" style="display:none;">
+                <div class="results-header">
+                    <h3>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px;">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        Conversion Complete!
+                    </h3>
+                    <p class="results-summary"><span id="resultsCount">0</span> files ready to export</p>
+                </div>
+
+                <!-- ZIP Export Highlighted Box -->
+                <div class="zip-export-box">
+                    <div class="zip-export-info">
+                        <div class="zip-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 8v13H3V8"/>
+                                <path d="M1 3h22v5H1z"/>
+                                <path d="M10 12h4"/>
+                            </svg>
+                        </div>
+                        <div class="zip-export-text">
+                            <strong>Export All Files as ZIP</strong>
+                            <span>Download all <span id="zipFileCount">0</span> converted HTML files in a single ZIP archive</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-export-zip" id="downloadAllBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Export ZIP
+                    </button>
+                </div>
+
+                <h4 class="section-subtitle">Individual Files</h4>
+                <div class="results-list" id="resultsList"></div>
+                <button class="btn btn-secondary" id="startOverBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="23 4 23 10 17 10"/>
+                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+                    </svg>
+                    Start Over
+                </button>
+            </div>
+
+            <!-- Toast Notification -->
+            <div class="toast" id="toast"></div>
+        </main>
+
+        <footer>
+            <p>MHTML to HTML Converter | All processing happens in your browser - no files are uploaded to any server.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="app.js"></script>
+</body>
 </html>
