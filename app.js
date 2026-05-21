@@ -24,8 +24,11 @@ class MHTMLConverter {
         this.progressText = document.getElementById('progressText');
         this.resultsSection = document.getElementById('resultsSection');
         this.resultsList = document.getElementById('resultsList');
+        this.resultsCount = document.getElementById('resultsCount');
+        this.zipFileCount = document.getElementById('zipFileCount');
         this.downloadAllBtn = document.getElementById('downloadAllBtn');
         this.startOverBtn = document.getElementById('startOverBtn');
+        this.toast = document.getElementById('toast');
     }
 
     initEventListeners() {
@@ -300,6 +303,11 @@ class MHTMLConverter {
         this.progressSection.style.display = 'none';
         this.resultsSection.style.display = 'block';
 
+        // Update counts
+        const total = this.convertedFiles.length;
+        if (this.resultsCount) this.resultsCount.textContent = total;
+        if (this.zipFileCount) this.zipFileCount.textContent = total;
+
         this.resultsList.innerHTML = this.convertedFiles.map((file, index) => `
             <div class="result-item">
                 <div class="result-item-info">
@@ -316,6 +324,9 @@ class MHTMLConverter {
                 </div>
             </div>
         `).join('');
+
+        // Show success toast
+        this.showToast(`Successfully converted ${total} file${total !== 1 ? 's' : ''}!`, 'success');
     }
 
     previewFile(index) {
@@ -368,6 +379,15 @@ class MHTMLConverter {
         this.progressFill.style.width = '0%';
         this.uploadSection.querySelector('.drop-zone').style.padding = '3rem 2rem';
         this.uploadSection.querySelector('.drop-zone h3').style.fontSize = '1.3rem';
+    }
+
+    showToast(message, type = 'success') {
+        if (!this.toast) return;
+        this.toast.textContent = message;
+        this.toast.className = `toast toast-${type} toast-show`;
+        setTimeout(() => {
+            this.toast.classList.remove('toast-show');
+        }, 3000);
     }
 
     formatSize(bytes) {

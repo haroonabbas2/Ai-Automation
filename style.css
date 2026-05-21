@@ -395,3 +395,115 @@ footer p {
         font-size: 1rem;
     }
 }
+
+
+/* ZIP Export Box */
+.zip-export-box {
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(99, 102, 241, 0.05));
+    border: 2px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.zip-export-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.zip-icon {
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+.zip-export-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.zip-export-text strong {
+    font-size: 1.05rem;
+    color: var(--text);
+}
+
+.zip-export-text span {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.btn-export-zip {
+    padding: 0.75rem 1.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Section Subtitle */
+.section-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+}
+
+/* Results Summary */
+.results-summary {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+}
+
+/* Toast Notification */
+.toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--success);
+    color: white;
+    padding: 0.85rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    opacity: 0;
+    transition: all 0.4s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+}
+
+.toast-show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast-success {
+    background: var(--success);
+}
+
+.toast-error {
+    background: var(--danger);
+}
+
+/* Responsive additions */
+@media (max-width: 600px) {
+    .zip-export-box {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .zip-export-info {
+        flex-direction: column;
+    }
+
+    .btn-export-zip {
+        width: 100%;
+        justify-content: center;
+    }
+}
