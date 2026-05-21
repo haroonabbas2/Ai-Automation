@@ -1,12 +1,13 @@
 {
   "name": "mhtml-to-html-converter",
   "version": "1.0.0",
-  "description": "MHTML to HTML Batch Converter - Static web app",
+  "description": "MHTML to HTML Batch Converter",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "engines": {
     "node": ">=18.0.0"
-  }
+  },
+  "dependencies": {}
 }
